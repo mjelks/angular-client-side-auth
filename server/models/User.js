@@ -9,32 +9,33 @@ var User
     , check =           require('validator').check
     , userRoles =       require('../../client/js/routingConfig').userRoles;
 
-var users = [
-    {
-        id:         1,
-        username:   "user",
-        password:   "123",
-        role:   userRoles.user
-    },
-    {
-        id:         2,
-        username:   "admin",
-        password:   "123",
-        role:   userRoles.admin
-    }
-];
-
+var users = [];
+//var users = [
+//    {
+//        id:         1,
+//        username:   "user",
+//        password:   "123",
+//        role:   userRoles.user
+//    },
+//    {
+//        id:         2,
+//        username:   "admin",
+//        password:   "123",
+//        role:   userRoles.admin
+//    }
+//];
+    
 module.exports = {
     addUser: function(username, password, role, callback) {
         if(this.findByUsername(username) !== undefined)  return callback("UserAlreadyExists");
 
-        // Clean up when 500 users reached
-        if(users.length > 500) {
-            users = users.slice(0, 2);
-        }
+//        // Clean up when 500 users reached
+//        if(users.length > 500) {
+//            users = users.slice(0, 2);
+//        }
 
         var user = {
-            id:         _.max(users, function(user) { return user.id; }).id + 1,
+//            id:         _.max(users, function(user) { return user.id; }).id + 1,
             username:   username,
             password:   password,
             role:       role
@@ -45,9 +46,11 @@ module.exports = {
 
     findOrCreateOauthUser: function(provider, providerId) {
         var user = module.exports.findByProviderId(provider, providerId);
+
         if(!user) {
             user = {
-                id: _.max(users, function(user) { return user.id; }).id + 1,
+//                id: _.max(users, function(user) { return user.id; }).id + 1,
+                id : 1,
                 username: provider + '_user', // Should keep Oauth users anonymous on demo site
                 role: userRoles.user,
                 provider: provider
@@ -55,7 +58,6 @@ module.exports = {
             user[provider] = providerId;
             users.push(user);
         }
-
         return user;
     },
 
@@ -72,6 +74,7 @@ module.exports = {
     },
 
     findByProviderId: function(provider, id) {
+        // put in the restful call to find the user by the provider && id
         return _.find(users, function(user) { return user[provider] === id; });
     },
 
@@ -158,7 +161,7 @@ module.exports = {
           },
            function(token, tokenSecret, profile, done) {
             var user = module.exports.findOrCreateOauthUser('linkedin', profile.id);
-            done(null,user); 
+            done(null,user);
           }
         );
     },

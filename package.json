@@ -19,7 +19,7 @@
   },
   "subdomain": "angular-client-side-auth",
   "scripts": {
-    "start": "NODE_ENV=development node server.js",
+    "start": "NODE_ENV=development TWITTER_CONSUMER_KEY=viU6dIBjcM9bCammq2EEw TWITTER_CONSUMER_SECRET=FDYNyGvtrbrvQdrDW7OxDJwjQv5Eu3oHL7oyaeHBg node server.js",
     "test": "NODE_ENV=test grunt test"
   },
   "engines": {
